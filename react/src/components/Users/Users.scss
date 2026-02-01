@@ -1,0 +1,162 @@
+
+$primary: #2DCC70;
+$body-bg: #233342;
+$card-bg: #2B3A4F;
+$text-primary: #ffffff;
+$text-secondary: #92A1A2;
+$border-color: #34495E;
+$night-blue: #34495E;
+$night-blue-dark: #233342;
+
+.users-container {
+  background-color: $body-bg;
+  min-height: calc(100vh - 80px);
+  padding: 2rem;
+  color: $text-primary;
+
+  h1 {
+    color: $primary;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 8px rgba(45, 204, 112, 0.3);
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .user-card {
+    background: $card-bg;
+    border: 2px solid $border-color;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: $primary;
+    }
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(45, 204, 112, 0.2);
+      border-color: $primary;
+    }
+  }
+
+  .user-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(45, 204, 112, 0.1);
+    border: 3px solid $primary;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+
+    svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .user-card:hover & {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(45, 204, 112, 0.3);
+    }
+  }
+
+  .user-info {
+    text-align: center;
+  }
+
+  .user-name {
+    color: $text-primary;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 0 5px rgba(45, 204, 112, 0.3);
+  }
+
+  .user-email {
+    color: $text-secondary;
+    font-size: 1rem;
+    margin: 0 0 1rem 0;
+    word-break: break-word;
+  }
+
+  .user-role {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid currentColor;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .users-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .user-card {
+      padding: 1.5rem;
+    }
+
+    .user-avatar {
+      width: 60px;
+      height: 60px;
+
+      svg {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    .user-name {
+      font-size: 1.2rem;
+    }
+  }
+
+  .loading, .error {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: $text-secondary;
+  }
+
+  .error {
+    color: #e74c3c;
+  }
+} 

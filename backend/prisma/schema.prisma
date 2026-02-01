@@ -1,0 +1,192 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+  PROJECT_MANAGER
+  UI_UX_DESIGNER
+  FRONTEND_DEVELOPER
+  BACKEND_DEVELOPER
+  FULL_STACK_DEVELOPER
+  QA_TESTER
+  DEVOPS_ENGINEER
+  DATA_ANALYST
+  PRODUCT_MANAGER
+}
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  BLOCKED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum NotificationType {
+  PROJECT_ASSIGNED
+  TASK_ASSIGNED
+  ROLE_CHANGED
+  SYSTEM_ANNOUNCEMENT
+  TASK_DUE_SOON
+  PROJECT_STATUS_CHANGED
+}
+
+enum NotificationStatus {
+  UNREAD
+  READ
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  firstName String?
+  lastName  String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  projects      Project[]
+  tasks         Task[]
+  comments      Comment[]
+  activities    Activity[]
+  ownedProjects Project[] @relation("ProjectOwner")
+  notifications Notification[]
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+}
+
+model Project {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String?
+  status      ProjectStatus @default(PLANNING)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  ownerId     Int
+
+  // Relations
+  owner     User     @relation("ProjectOwner", fields: [ownerId], references: [id])
+  users     User[]
+  tasks     Task[]
+  activities Activity[]
+
+  @@index([ownerId])
+}
+
+model Task {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String?
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(MEDIUM)
+  dueDate     DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  projectId   Int
+  assigneeId  Int?
+
+  // Relations
+  project    Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assignee   User?      @relation(fields: [assigneeId], references: [id])
+  comments   Comment[]
+  activities Activity[]
+
+  @@index([projectId])
+  @@index([assigneeId])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  taskId    Int
+  authorId  Int
+
+  // Relations
+  task    Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  author  User @relation(fields: [authorId], references: [id])
+
+  @@index([taskId])
+  @@index([authorId])
+}
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  description String
+  createdAt   DateTime @default(now())
+  userId      Int
+  projectId   Int?
+  taskId      Int?
+
+  // Relations
+  user    User     @relation(fields: [userId], references: [id])
+  project Project? @relation(fields: [projectId], references: [id])
+  task    Task?    @relation(fields: [taskId], references: [id])
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([taskId])
+}
+
+model Notification {
+  id        Int               @id @default(autoincrement())
+  type      NotificationType
+  title     String
+  message   String
+  status    NotificationStatus @default(UNREAD)
+  data      Json?             // Ek veri (proje ID, görev ID vs.)
+  createdAt DateTime          @default(now())
+  userId    Int
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  isRead    Boolean  @default(false)
+  senderId  Int
+  receiverId Int
+
+  // Relations
+  sender    User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver  User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([createdAt])
+  @@index([isRead])
+} 

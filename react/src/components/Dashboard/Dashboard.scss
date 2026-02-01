@@ -1,0 +1,186 @@
+$primary: #6c63ff;
+$secondary: #48c6ef;
+$body-bg: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+$card-bg: #fff;
+$text-primary: #2d3a5a;
+$text-secondary: #6b7a99;
+$border-color: #e0e7ff;
+
+.dashboard {
+  min-height: 100vh;
+  padding: 2.5rem 1rem 2rem 1rem;
+  background: $body-bg;
+  color: $text-primary;
+
+  h1 {
+    margin-bottom: 2rem;
+    color: $primary;
+    font-size: 2.7rem;
+    font-weight: 700;
+    text-shadow: 0 2px 16px rgba(108, 99, 255, 0.08);
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .chart-area {
+    background: $card-bg;
+    border-radius: 20px;
+    box-shadow: 0 4px 32px rgba(76, 110, 245, 0.10);
+    padding: 2rem 1rem 1.5rem 1rem;
+    margin: 0 auto 2.5rem auto;
+    max-width: 440px;
+    transition: box-shadow 0.2s;
+    &:hover {
+      box-shadow: 0 8px 40px rgba(76, 110, 245, 0.18);
+    }
+  }
+
+  .stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .stat-card {
+    background: $card-bg;
+    border: 1.5px solid $border-color;
+    border-radius: 18px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 16px rgba(76, 110, 245, 0.07);
+    text-align: center;
+    min-width: 180px;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      box-shadow: 0 8px 32px rgba(76, 110, 245, 0.13);
+      border-color: $primary;
+      transform: translateY(-4px) scale(1.03);
+    }
+  }
+
+  .stat-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: $secondary;
+    font-size: 1.08rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  .stat-value {
+    font-size: 2.3rem;
+    font-weight: bold;
+    color: $primary;
+    text-shadow: 0 0 8px rgba(108, 99, 255, 0.13);
+  }
+
+  .admin-dashboard, .user-dashboard {
+    background: $card-bg;
+    border: 1.5px solid $border-color;
+    border-radius: 18px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 16px rgba(76, 110, 245, 0.07);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .admin-dashboard h2,
+  .user-dashboard h2 {
+    color: $primary;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .admin-dashboard p,
+  .user-dashboard p {
+    color: $text-secondary;
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+
+  .projects-summary, .tasks-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+  }
+
+  .project-summary-card, .task-summary-card {
+    background: $card-bg;
+    border: 1.5px solid $border-color;
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 2px 12px rgba(76, 110, 245, 0.06);
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    min-width: 220px;
+    max-width: 320px;
+
+    &:hover {
+      border-color: $secondary;
+      box-shadow: 0 8px 24px rgba(72, 198, 239, 0.13);
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    h4 {
+      margin: 0 0 0.5rem 0;
+      color: $primary;
+      font-size: 1.1rem;
+    }
+
+    p {
+      color: $text-secondary;
+      margin: 0 0 0.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    .project-tasks {
+      color: $text-secondary;
+      font-size: 0.85rem;
+    }
+
+    .task-status {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+
+      &.status-todo {
+        background: #ffeaa7;
+        color: #d63031;
+      }
+
+      &.status-in_progress {
+        background: #74b9ff;
+        color: white;
+      }
+
+      &.status-done {
+        background: #00b894;
+        color: white;
+      }
+
+      &.status-blocked {
+        background: #fd79a8;
+        color: white;
+      }
+    }
+  }
+}
+
+.dashboard-message {
+  padding: 2rem;
+  text-align: center;
+  color: $primary;
+  
+  &.error {
+    color: #e74c3c;
+  }
+}
